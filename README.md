@@ -1,1 +1,1 @@
-electron need install visual-studio windows app C++ for win build
+install visual-studio windows app C++ for win build
