@@ -1,7 +1,12 @@
 const { ipcRenderer } = require("electron");
-
+ipcRenderer.send("find-arduino");
 document.getElementById("find-arduino").addEventListener("click", () => {
   ipcRenderer.send("find-arduino");
+});
+
+document.getElementById("max-temp").addEventListener("input", (event) => {
+  const temp = event.target.value;
+  ipcRenderer.send("send-data", `SET_MAX_TEMP${temp}`);
 });
 
 document.getElementById("get-info-btn").addEventListener("click", () => {
@@ -17,8 +22,8 @@ ipcRenderer.on("arduino-not-found", (event, ports) => {
   console.log("Arduino not found", ports);
 });
 
-ipcRenderer.on("ECHO_GET_INFO", (event, [speed, temp]) => {
-  console.log("ECHO_GET_INFO", [speed, temp]);
+ipcRenderer.on("ECHO_GET_INFO", (event, [speed, temp, maxTemp]) => {
+  console.log("ECHO_GET_INFO", { speed, temp, maxTemp });
 });
 
 ipcRenderer.on("arduino-data", (event, data) => {

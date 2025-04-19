@@ -5,7 +5,7 @@ const int fanCount = 1; // Количество вентиляторов
 const int fanPins[1] = {6}; // Выводы для управления вентиляторами (PWM)
 int fanSpeeds[1] = {0}; // Скорости вентиляторов (0-255)
 const int ledPin = 13; // Вывод для светодиода
-int baseFanSpeed = 0; // Базовая скорость вентилятора, установленная командой
+int baseFanSpeed = 125; // Базовая скорость вентилятора, установленная командой
 int maxTermoTemp = 40; 
 void setup() {
   Serial.begin(9600);
@@ -54,7 +54,9 @@ void loop() {
     } else if (command.startsWith("GET_INFO")) {
       Serial.print(adjustedFanSpeed);
       Serial.print("::");
-      Serial.println(temperature);
+      Serial.print(temperature);
+      Serial.print("::");
+      Serial.println(maxTermoTemp);
     } else if (command.startsWith("SET_FAN")) {
       int fanIndex = command.charAt(8) - '0'; // Получаем индекс вентилятора
       baseFanSpeed = command.substring(10).toInt(); // Получаем базовую скорость вентилятора
@@ -64,6 +66,8 @@ void loop() {
       }
     } else if (command == "GET_FAN_COUNT") {
       Serial.println(fanCount);
+    } else if (command.startsWith("SET_MAX_TEMP")) {
+        maxTermoTemp = command.substring(12).toInt() * 10;
     }
   }
 

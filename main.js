@@ -65,8 +65,8 @@ ipcMain.on("GET_INFO", (event, data) => {
     const parser = port.pipe(new ReadlineParser({ delimiter: "\n" }));
     parser.once("data", (data) => {
       try {
-        const [speed, temp] = data.trim().split("::");
-        mainWindow.webContents.send("ECHO_GET_INFO", [speed, temp]);
+        const [speed, temp, maxTemp] = data.trim().split("::");
+        mainWindow.webContents.send("ECHO_GET_INFO", [speed, temp, maxTemp]);
       } catch (e) {
         console.warn("GET_INFO ERROR", e);
       }
